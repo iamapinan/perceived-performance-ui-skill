@@ -1,0 +1,4 @@
+interface:
+  display_name: "Perceived Performance UI"
+  short_description: "Build interfaces that feel fast and tactile"
+  default_prompt: "Use $perceived-performance-ui to improve this interface with suitable perceived-performance and tactile interaction patterns."

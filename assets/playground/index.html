@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An interactive laboratory for perceived performance and tactile micro-interactions">
+  <title>Performance Playground</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Performance Playground home">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span>PERF PLAYGROUND</span>
+    </a>
+    <nav aria-label="Main navigation">
+      <a href="#speed">Speed</a>
+      <a href="#feel">Feel</a>
+      <button class="icon-button" id="themeToggle" type="button" aria-label="Toggle color theme" title="Toggle color theme">◐</button>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <p class="eyebrow">INTERACTION LAB</p>
+        <h1><span class="hero-line">Same wait.</span><span class="hero-line accent-line">Feels faster.</span></h1>
+        <p>Click, drag, type, and scroll to see how perception changes the experience.</p>
+        <a class="primary-button" href="#speed">Start experimenting <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="hero-instrument" aria-label="Simulation of a 2.4 second wait">
+        <div class="instrument-top"><span>WAIT TIME</span><strong>2.4s</strong></div>
+        <div class="perception-line">
+          <span class="line-label">Actual time</span>
+          <div class="line-track"><i class="line-actual"></i></div>
+          <b>2.4s</b>
+        </div>
+        <div class="perception-line">
+          <span class="line-label">Felt time</span>
+          <div class="line-track"><i class="line-felt"></i></div>
+          <b>1.1s</b>
+        </div>
+        <div class="pulse-scope" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <p>Good feedback does not remove the wait. It changes what people experience while they wait.</p>
+      </div>
+    </section>
+
+    <section class="section" id="speed">
+      <div class="section-heading">
+        <span class="section-count">7 LABS</span>
+        <h2>Make it feel faster</h2>
+        <p>The work may take just as long behind the scenes, but the interface does not need to sit still.</p>
+      </div>
+
+      <article class="lab lab-wide" id="skeletonLab">
+        <div class="lab-copy">
+          <span class="lab-index">01</span>
+          <h3>Skeleton + shimmer</h3>
+          <p>A placeholder shaped like the final content says it is on the way. Shimmer shows that work is still happening.</p>
+          <button class="secondary-button" type="button" data-action="reload-skeleton">Reload</button>
+        </div>
+        <div class="demo-frame skeleton-demo" aria-live="polite">
+          <div class="demo-toolbar"><span>FEED</span><span class="demo-state" id="skeletonState">Loading</span></div>
+          <div class="feed-list" id="feedList"></div>
+        </div>
+      </article>
+
+      <div class="lab-pair">
+        <article class="lab" id="optimisticLab">
+          <div class="lab-copy compact">
+            <span class="lab-index">02</span>
+            <h3>Optimistic UI</h3>
+            <p>The interface responds first. The server confirms later, or the change rolls back.</p>
+          </div>
+          <div class="demo-frame post-card">
+            <div class="post-art" aria-hidden="true"><span>FEELS<br>FAST</span></div>
+            <div class="post-meta">
+              <p>Notes from today's interaction lab</p>
+              <button class="like-button" id="likeButton" type="button" aria-pressed="false"><span aria-hidden="true">♥</span> <b id="likeCount">128</b></button>
+            </div>
+            <label class="failure-toggle"><input id="forceFail" type="checkbox"> Simulate API failure</label>
+            <div class="request-status" id="likeStatus">Ready to try</div>
+          </div>
+        </article>
+
+        <article class="lab" id="blurLab">
+          <div class="lab-copy compact">
+            <span class="lab-index">03</span>
+            <h3>Blur-up image</h3>
+            <p>Show color and composition first, then fade in the sharp image.</p>
+          </div>
+          <div class="demo-frame blur-demo">
+            <div class="blur-stage" id="blurStage">
+              <div class="blur-placeholder"></div>
+              <div class="sharp-image" role="img" aria-label="Red and black abstract composition"></div>
+              <span id="blurBadge">LOW RES</span>
+            </div>
+            <button class="secondary-button" type="button" data-action="replay-blur">Replay</button>
+          </div>
+        </article>
+      </div>
+
+      <article class="lab lab-prefetch" id="prefetchLab">
+        <div class="lab-copy">
+          <span class="lab-index">04</span>
+          <h3>Prefetch on intent</h3>
+          <p>Hover or focus signals intent, so the next page can start loading before the click.</p>
+        </div>
+        <div class="prefetch-console">
+          <a href="#prefetch-result" class="prefetch-link" id="prefetchLink">View the full report <span>→</span></a>
+          <div class="network-row"><span class="network-light"></span><code id="prefetchStatus">IDLE: waiting for intent</code><b id="prefetchTime">0 ms</b></div>
+          <div class="network-track"><i id="prefetchProgress"></i></div>
+          <p id="prefetch-result">Hover over the link and notice that loading starts before the click.</p>
+        </div>
+      </article>
+
+      <article class="lab lab-wide" id="virtualLab">
+        <div class="lab-copy">
+          <span class="lab-index">05</span>
+          <h3>Virtual list</h3>
+          <p>Keep 10,000 rows of data, but create DOM nodes only for the visible rows and a small buffer.</p>
+          <div class="stat-stack"><b>10,000</b><span>Total records</span><b id="renderedCount">0</b><span>Rendered DOM nodes</span></div>
+        </div>
+        <div class="demo-frame virtual-window" id="virtualWindow" tabindex="0" aria-label="Scrollable simulation of 10,000 rows">
+          <div class="virtual-spacer" id="virtualSpacer"></div>
+          <div class="virtual-items" id="virtualItems"></div>
+        </div>
+      </article>
+
+      <div class="lab-pair lab-pair-offset">
+        <article class="lab" id="debounceLab">
+          <div class="lab-copy compact">
+            <span class="lab-index">06</span>
+            <h3>Debounced search</h3>
+            <p>Wait until typing pauses for 300 ms, then send one request.</p>
+          </div>
+          <div class="demo-frame search-demo">
+            <label for="searchInput">Search patterns</label>
+            <input id="searchInput" type="search" placeholder="Try typing quickly" autocomplete="off">
+            <div class="search-counters">
+              <span>Keystrokes <b id="keyCount">0</b></span>
+              <span>API calls <b id="apiCount">0</b></span>
+            </div>
+            <div class="search-result" id="searchResult">No query yet</div>
+          </div>
+        </article>
+
+        <article class="lab" id="streamLab">
+          <div class="lab-copy compact">
+            <span class="lab-index">07</span>
+            <h3>Streaming</h3>
+            <p>Send the shell first, then fill in content as each region becomes ready.</p>
+          </div>
+          <div class="demo-frame stream-demo">
+            <div class="stream-head"><span>ARTICLE STREAM</span><button type="button" data-action="start-stream">Restart</button></div>
+            <div class="stream-content" id="streamContent"></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section feel-section" id="feel">
+      <div class="section-heading feel-heading">
+        <span class="section-count">6 LABS</span>
+        <h2>Make it feel good</h2>
+        <p>Speed is not everything. Weight, resistance, and feedback make digital objects feel tangible.</p>
+      </div>
+
+      <article class="spring-lab">
+        <div class="spring-copy">
+          <span class="lab-index">08</span>
+          <h3>Spring physics</h3>
+          <p>Compare an ease that stops exactly on target with a spring that overshoots and settles.</p>
+          <button class="primary-button" type="button" data-action="run-spring">Release objects</button>
+        </div>
+        <div class="spring-track-wrap">
+          <div class="spring-row"><span>EASE</span><div class="spring-track"><i id="easeBall"></i></div></div>
+          <div class="spring-row"><span>SPRING</span><div class="spring-track"><i id="springBall"></i></div></div>
+        </div>
+      </article>
+
+      <div class="feel-grid">
+        <article class="feel-card drag-card-lab">
+          <div class="feel-title"><span class="lab-index">09</span><h3>Drag to dismiss</h3></div>
+          <p>Drag the sheet slowly or flick it quickly. Resistance appears when you drag in the wrong direction.</p>
+          <div class="phone-stage">
+            <button class="open-sheet" id="openSheet" type="button">Open bottom sheet</button>
+            <div class="bottom-sheet" id="bottomSheet">
+              <button class="sheet-handle" type="button" aria-label="Drag down to dismiss"></button>
+              <strong>Drag me down</strong>
+              <span id="velocityReadout">velocity 0 px/s</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="feel-card command-card">
+          <div class="feel-title"><span class="lab-index">10</span><h3>Command palette</h3></div>
+          <p>Press <kbd>⌘</kbd> <kbd>K</kbd> or <kbd>Ctrl</kbd> <kbd>K</kbd> to work without reaching for the mouse.</p>
+          <button class="command-trigger" id="commandTrigger" type="button"><span>Search commands</span><kbd>⌘ K</kbd></button>
+          <div class="shortcut-list"><span>Type to filter</span><span>↑↓ to select</span><span>↵ to confirm</span></div>
+        </article>
+
+        <article class="feel-card shadow-card">
+          <div class="feel-title"><span class="lab-index">11</span><h3>Layered shadow</h3></div>
+          <p>Compare a single shadow with three layers: contact, ambient, and directional.</p>
+          <div class="shadow-stage">
+            <div class="shadow-object" id="shadowObject"><span>OBJECT</span></div>
+          </div>
+          <div class="segmented" role="group" aria-label="Choose shadow type">
+            <button type="button" data-shadow="single">1 layer</button>
+            <button class="active" type="button" data-shadow="layered">3 layers</button>
+          </div>
+        </article>
+
+        <article class="feel-card noise-card">
+          <div class="feel-title"><span class="lab-index">12</span><h3>Noise texture</h3></div>
+          <p>Subtle grain reduces digital flatness without competing for attention.</p>
+          <div class="noise-compare" id="noiseCompare">
+            <div class="noise-side clean"><span>CLEAN</span></div>
+            <div class="noise-side textured"><span>NOISE</span></div>
+            <input id="noiseSlider" type="range" min="10" max="90" value="50" aria-label="Slide to compare noise texture">
+          </div>
+        </article>
+
+        <article class="feel-card toast-card-lab">
+          <div class="feel-title"><span class="lab-index">13</span><h3>Toast feedback</h3></div>
+          <p>Confirm completion without blocking the task, opening a dialog, or requiring an OK click.</p>
+          <div class="save-editor">
+            <label for="noteInput">Short note</label>
+            <textarea id="noteInput" rows="3">The rhythm of feedback matters as much as response time.</textarea>
+            <button class="primary-button" id="saveButton" type="button">Save</button>
+            <span class="inline-save-status" id="inlineSaveStatus">No unsaved changes</span>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>PERFORMANCE PLAYGROUND</strong>
+    <p>Make the wait feel shorter, even when load time stays the same.</p>
+    <a href="#top">Back to top ↑</a>
+  </footer>
+
+  <div class="palette-backdrop" id="paletteBackdrop" hidden>
+    <div class="command-palette" role="dialog" aria-modal="true" aria-labelledby="paletteTitle">
+      <h2 id="paletteTitle" class="sr-only">Command palette</h2>
+      <input id="commandInput" type="text" placeholder="Type a command..." autocomplete="off">
+      <ul id="commandList" role="listbox"></ul>
+      <div class="palette-footer"><span>↑↓ select</span><span>↵ open</span><span>esc close</span></div>
+    </div>
+  </div>
+  <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
+  <script src="script.js"></script>
+</body>
+</html>
